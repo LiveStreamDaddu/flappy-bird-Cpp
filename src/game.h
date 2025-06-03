@@ -10,5 +10,5 @@ class Game
         void Update();
     private :
         Bird bird;
-        Pipe pipe;
+        // Pipe pipe;
 };

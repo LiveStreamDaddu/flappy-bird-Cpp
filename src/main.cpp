@@ -1,9 +1,14 @@
 #include <raylib.h>
 #include "game.h"
+#include <iostream>
+#include <deque>
 
 int main() 
 {
-    const Color lightBlue = {135, 206, 235, 255};
+
+    
+    int frameCount = 0;
+    bool gameOver = false;
     
     constexpr int screenWidth = 300;
     constexpr int screenHeight = 550;
@@ -12,22 +17,45 @@ int main()
     
     InitWindow(screenWidth, screenHeight, "Flappy Bird");
     SetTargetFPS(60);
-    Game game = Game();
+    //Game game = Game();
+    Bird bird ;
+    std::deque<Pipe> pipes;
     Texture2D backgroundTexture = LoadTextureFromImage(LoadImage("Graphics/background-day.png"));
     Texture2D baseTexture = LoadTextureFromImage(LoadImage("Graphics/base.png"));
+    
     
     while (!WindowShouldClose())
     {
         
         
         BeginDrawing();
-            ClearBackground(lightBlue);
+            ClearBackground(BLACK);
+
             DrawTextureEx(backgroundTexture , {0.0f,0.0f} , 0.0f , 1.1f , WHITE);
-            game.Draw();
-            DrawTextureEx(baseTexture , {0.0f,480.0f} , 0.0f , 1.1f , WHITE);
             
+
+            if(!gameOver)
+            {
+                bird.Update();
+
+                DrawTextureEx(baseTexture , {0.0f,480.0f} , 0.0f , 1.1f , WHITE);
+
+                if(frameCount % 120 == 0)
+                {
+                    pipes.push_back(Pipe(300));
+                }
+
+                for(Pipe& pipe : pipes)
+                {
+                    pipe.Draw(); 
+                    pipe.Update();
+                    
+                }
             
-            game.Update();
+                bird.Draw();
+                frameCount++;
+            }
+            
         EndDrawing();
     }
     

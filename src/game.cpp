@@ -10,7 +10,7 @@ Game::Game()
 void Game::Draw()
 {
     bird.Draw();
-    pipe.Draw();
+    // pipe.Draw();
 }
 
 void Game::Update()
