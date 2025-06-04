@@ -7,7 +7,6 @@ Pipe::Pipe(float startX , float gapY , float y)
     texture = LoadTextureFromImage(image);
     UnloadImage(image);
 
-    
     x = startX;
     speed = 3;
 

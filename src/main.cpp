@@ -1,5 +1,6 @@
 #include <raylib.h>
-#include "game.h"
+#include "bird.h"
+#include "pipe.h"
 #include <iostream>
 #include <deque>
 
@@ -17,9 +18,11 @@ int main()
     
     InitWindow(screenWidth, screenHeight, "Flappy Bird");
     SetTargetFPS(60);
-    //Game game = Game();
+
     Bird bird = Bird() ;
+
     std::deque<Pipe> pipes;
+
     Image bgImage = LoadImage("Graphics/background-day.png");
     Texture2D backgroundTexture = LoadTextureFromImage(bgImage);
     UnloadImage(bgImage);
@@ -27,8 +30,8 @@ int main()
     Image baseImage = LoadImage("Graphics/base.png");
     Texture2D baseTexture = LoadTextureFromImage(baseImage);
     UnloadImage(baseImage);
+
     int score = 0;
-    
     
     while (!WindowShouldClose())
     {
@@ -36,15 +39,12 @@ int main()
         
         BeginDrawing();
             ClearBackground(BLACK);
-
             DrawTextureEx(backgroundTexture , {0.0f,0.0f} , 0.0f , 1.1f , WHITE);
             
 
             if(!gameOver)
             {
                 bird.Update();
-
-                
                 int gapY;
                 int y;
 
@@ -53,16 +53,15 @@ int main()
                     gapY = GetRandomValue(120 , 150);
                     y = GetRandomValue(80 , 200);
                     pipes.push_back(Pipe(300 , gapY,  y));
-                    
                 }
+
                 if((frameCount + 25)%120 == 0)
                 {
                     score++;
-                }
+                }   
 
                 for(Pipe& pipe : pipes)
                 {
-                    
                     pipe.Draw(); 
                     pipe.Update();
                     if(pipe.CollidesWithBird(bird))
@@ -70,15 +69,11 @@ int main()
                         gameOver = true;
                         score = 0;
                     }
-                    
-                    
                 }
+
                 DrawTextureEx(baseTexture , {0.0f,480.0f} , 0.0f , 1.1f , WHITE);
                 DrawText(TextFormat("%i" , score) , 20 , 510 , 30 , WHITE);
 
-
-                
-            
                 bird.Draw();
                 frameCount++;
             }
