@@ -17,3 +17,4 @@ void Game::Update()
 {
     bird.Update();
 }
+
